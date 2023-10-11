@@ -1,6 +1,7 @@
 package pansong291.xposed.quickenergy.util;
 
 import android.os.Environment;
+
 import pansong291.xposed.quickenergy.AntForestToast;
 import pansong291.xposed.quickenergy.data.RuntimeInfo;
 
@@ -10,6 +11,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.json.JSONObject;
 
 public class FileUtils {
@@ -95,7 +97,7 @@ public class FileUtils {
     public static File getCityCodeFile() {
         if (cityCodeFile == null) {
             cityCodeFile = new File(getMainDirectoryFile(), "cityCode.json");
-            if(cityCodeFile.exists() && cityCodeFile.isDirectory())
+            if (cityCodeFile.exists() && cityCodeFile.isDirectory())
                 cityCodeFile.delete();
         }
         return cityCodeFile;
@@ -354,14 +356,19 @@ public class FileUtils {
         return result.toString();
     }
 
+    /**
+     * 追加文本到简单日志文件
+     *
+     * @param s 要追加到日志文件中的文本
+     */
     public synchronized static void append2SimpleLogFile(String s) {
-        if (getSimpleLogFile().length() > 31_457_280) // 30MB
+        if (getSimpleLogFile().length() > 10_485_760) // 10MB 调整为10M日志重置
             getSimpleLogFile().delete();
         append2File(Log.getFormatDateTime() + "  " + s + "\n", getSimpleLogFile());
     }
 
     public synchronized static void append2RuntimeLogFile(String s) {
-        if (getRuntimeLogFile().length() > 31_457_280) {// 30MB
+        if (getRuntimeLogFile().length() > 20_971_520) {// 20MB 调整为20M日志重置
             getRuntimeLogFile().delete();
         }
         append2File(Log.getFormatDateTime() + "  " + s + "\n", getRuntimeLogFile());
