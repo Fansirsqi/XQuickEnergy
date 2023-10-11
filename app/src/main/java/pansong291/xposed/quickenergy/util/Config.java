@@ -5,8 +5,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import pansong291.xposed.quickenergy.AntFarm.SendType;
 import pansong291.xposed.quickenergy.data.RuntimeInfo;
 import pansong291.xposed.quickenergy.hook.ClassMember;
@@ -19,9 +21,9 @@ public class Config {
     public enum RecallAnimalType {
         ALWAYS, WHEN_THIEF, WHEN_HUNGRY, NEVER;
 
-        public static final CharSequence[] nickNames = { "始终召回", "偷吃时召回", "饥饿时召回", "不召回" };
-        public static final CharSequence[] names = { ALWAYS.nickName(), WHEN_THIEF.nickName(), WHEN_HUNGRY.nickName(),
-                NEVER.nickName() };
+        public static final CharSequence[] nickNames = {"始终召回", "偷吃时召回", "饥饿时召回", "不召回"};
+        public static final CharSequence[] names = {ALWAYS.nickName(), WHEN_THIEF.nickName(), WHEN_HUNGRY.nickName(),
+                NEVER.nickName()};
 
         public CharSequence nickName() {
             return nickNames[ordinal()];
@@ -172,8 +174,21 @@ public class Config {
     private boolean collectProp;
     private boolean limitCollect;
     private int limitCount;
+    /**
+     * 双击能量卡的疯狂模式
+     */
+    private boolean crazyMode;
+    /**
+     * 是否使用双击卡
+     */
     private boolean doubleCard;
+    /**
+     * 双击卡时间列表?
+     */
     private List<String> doubleCardTime;
+    /**
+     * 双击卡限制值
+     */
     private int doubleCountLimit;
     private int advanceTime;
     private int collectInterval;
@@ -463,12 +478,31 @@ public class Config {
         hasChanged = true;
     }
 
+    /**
+     * 从设置获取 双击卡是否开启
+     *
+     * @return doubleCard
+     */
     public static boolean doubleCard() {
         return getConfig().doubleCard;
     }
 
+    public static boolean crazyMode() {
+        return getConfig().crazyMode;
+    }
+
+    /**
+     * 设置开启双击卡使用
+     *
+     * @param doubleCard ?
+     */
     public static void setDoubleCard(boolean doubleCard) {
         getConfig().doubleCard = doubleCard;
+        hasChanged = true;
+    }
+
+    public static void setCrazyMode(boolean crazyMode) {
+        getConfig().crazyMode = crazyMode;
         hasChanged = true;
     }
 
@@ -481,6 +515,11 @@ public class Config {
         return String.join(",", getConfig().doubleCardTime);
     }
 
+    /**
+     * 判断是否是使用双击卡的时间
+     *
+     * @return boolean
+     */
     public static boolean isDoubleCardTime() {
         for (String doubleTime : getConfig().doubleCardTime) {
             if (checkInTimeSpan(doubleTime))
@@ -489,6 +528,11 @@ public class Config {
         return false;
     }
 
+    /**
+     * 获取双击卡次数限制值
+     *
+     * @return int
+     */
     public static int getDoubleCountLimit() {
         return getConfig().doubleCountLimit;
     }
@@ -919,6 +963,11 @@ public class Config {
         return String.join(",", getConfig().farmGameTime);
     }
 
+    /**
+     * 是否是农场游戏时间
+     *
+     * @return boolean
+     */
     public static boolean isFarmGameTime() {
         for (String doubleTime : getConfig().farmGameTime) {
             if (checkInTimeSpan(doubleTime))
@@ -936,6 +985,11 @@ public class Config {
         return String.join(",", getConfig().animalSleepTime);
     }
 
+    /**
+     * 是否是小鸡休息时间
+     *
+     * @return boolean
+     */
     public static boolean isAnimalSleepTime() {
         for (String doubleTime : getConfig().animalSleepTime) {
             if (checkInTimeSpan(doubleTime))
@@ -944,6 +998,12 @@ public class Config {
         return false;
     }
 
+    /**
+     * 检查给定的时间字符串是否在指定时间范围内
+     *
+     * @param timeStr 要检查的时间字符串，格式为 "min-max"，或者 "HH:mm"
+     * @return 如果给定的时间字符串在指定时间范围内，则返回true，否则返回false
+     */
     private static boolean checkInTimeSpan(String timeStr) {
         if (timeStr.contains("-")) {
             String[] arr = timeStr.split("-");
@@ -1210,6 +1270,7 @@ public class Config {
     }
 
     private static int tmpStepCount = -1;
+
     public static int tmpStepCount() {
         if (tmpStepCount >= 0) {
             return tmpStepCount;

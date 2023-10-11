@@ -682,6 +682,10 @@ public class Statistics {
         return stat.exchangeTimes;
     }
 
+    /**
+     * 今日能否继续使用双击卡?的次数
+     * @return int
+     */
     public static boolean canDoubleToday() {
         Statistics stat = getStatistics();
         return stat.doubleTimes < Config.getDoubleCountLimit();
@@ -743,11 +747,16 @@ public class Statistics {
         }
     }
 
+    /**
+     * 获取统计对象
+     *
+     * @return 统计对象
+     */
     private static Statistics getStatistics() {
-        if (statistics == null) {
+        if (statistics == null) {//如果statistics变量为null
             String statJson = null;
-            if (FileUtils.getStatisticsFile().exists())
-                statJson = FileUtils.readFromFile(FileUtils.getStatisticsFile());
+            if (FileUtils.getStatisticsFile().exists())//尝试从文件中读取统计数据（statJson），如果文件存在
+                statJson = FileUtils.readFromFile(FileUtils.getStatisticsFile());//将读取到的统计数据（statJson）转换为Statistics对象
             statistics = json2Statistics(statJson);
         }
         return statistics;
@@ -778,7 +787,7 @@ public class Statistics {
     }
 
     private static void dayClear() {
-        Log.infoChanged(TAG,"重置 statistics.json");
+        Log.infoChanged(TAG, "重置 statistics.json");
         Statistics stat = getStatistics();
         stat.waterFriendLogList.clear();
         stat.cooperateWaterList.clear();
@@ -1120,7 +1129,7 @@ public class Statistics {
 
     private static String statistics2Json(Statistics stat) {
         JSONObject jo = new JSONObject();
-        JSONArray ja = null;
+        JSONArray ja;
         try {
             if (stat == null)
                 stat = Statistics.defInit();
@@ -1307,7 +1316,7 @@ public class Statistics {
 
     private static void save() {
         String json = statistics2Json(getStatistics());
-        Log.infoChanged(TAG,"保存 statistics.json");
+        Log.infoChanged(TAG, "保存 statistics.json");
         FileUtils.write2File(json, FileUtils.getStatisticsFile());
     }
 

@@ -1,23 +1,37 @@
 package pansong291.xposed.quickenergy;
 
-import de.robv.android.xposed.XposedHelpers;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import de.robv.android.xposed.XposedHelpers;
 import pansong291.xposed.quickenergy.AntFarm.TaskStatus;
 import pansong291.xposed.quickenergy.data.RuntimeInfo;
 import pansong291.xposed.quickenergy.hook.AntForestRpcCall;
 import pansong291.xposed.quickenergy.hook.EcoLifeRpcCall;
 import pansong291.xposed.quickenergy.hook.FriendManager;
 import pansong291.xposed.quickenergy.hook.XposedHook;
-import pansong291.xposed.quickenergy.util.*;
-
-import java.util.*;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import pansong291.xposed.quickenergy.util.Config;
+import pansong291.xposed.quickenergy.util.FileUtils;
+import pansong291.xposed.quickenergy.util.FriendIdMap;
+import pansong291.xposed.quickenergy.util.Log;
+import pansong291.xposed.quickenergy.util.PluginUtils;
+import pansong291.xposed.quickenergy.util.RandomUtils;
+import pansong291.xposed.quickenergy.util.Statistics;
+import pansong291.xposed.quickenergy.util.StringUtil;
+import pansong291.xposed.quickenergy.util.TimeUtil;
 
 /**
  * 蚂蚁森林
+ *
  * @author Constanline
  */
 public class AntForest {
@@ -45,6 +59,9 @@ public class AntForest {
 
     private static volatile long lastCollectTime = 0;
 
+    /**
+     * 双击卡剩余时间
+     */
     private static volatile long doubleEndTime = 0;
 
     private static final HashSet<Long> waitCollectBubbleIds = new HashSet<>();
@@ -56,7 +73,7 @@ public class AntForest {
      * 则清理 {@link #collectedQueue} 中超过1分钟的项，之后检查剩余条目是否多余一分钟收取限制数量
      * {@link Config#getLimitCount}。
      *
-     * @return  如果到达上限，则返回True，否则返回False
+     * @return 如果到达上限，则返回True，否则返回False
      */
     private static boolean checkCollectLimited() {
         if (Config.isLimitCollect()) {
@@ -75,6 +92,10 @@ public class AntForest {
         return false;
     }
 
+    /**
+     * 提交收集能量队列
+     * 如果启用了收集限制，则将当前时间添加到收集能量队列中。
+     */
     private static void offerCollectQueue() {
         if (Config.isLimitCollect()) {
             limitLock.lock();
@@ -324,6 +345,12 @@ public class AntForest {
         updateDoubleTime(joHomePage);
     }
 
+    /**
+     * 更新双击能量卡剩余时间
+     *
+     * @param joHomePage ?
+     * @throws JSONException ?
+     */
     private static void updateDoubleTime(JSONObject joHomePage) throws JSONException {
         JSONArray usingUserPropsNew = joHomePage.getJSONArray("loginUserUsingPropNew");
         if (usingUserPropsNew.length() == 0) {
@@ -669,8 +696,7 @@ public class AntForest {
     }
 
     private static int collectEnergy(String userId, long bubbleId, String bizNo, String extra) {
-        if (RuntimeInfo.getInstance().getLong(RuntimeInfo.RuntimeInfoKey.ForestPauseTime) > System
-                .currentTimeMillis()) {
+        if (RuntimeInfo.getInstance().getLong(RuntimeInfo.RuntimeInfoKey.ForestPauseTime) > System.currentTimeMillis()) {
             Log.recordLog("异常等待中，暂不收取能量！", "");
             return 0;
         }
@@ -698,10 +724,14 @@ public class AntForest {
                         Log.recordLog("异常等待中，暂不收取能量！", "");
                         return 0;
                     }
+                    //双击卡使用规则
                     if (Config.doubleCard() && doubleEndTime < System.currentTimeMillis()) {
                         if (Config.isDoubleCardTime() && !selfId.equals(userId) && Statistics.canDoubleToday()) {
                             useDoubleCard();
                         }
+                    }
+                    if (Config.doubleCard() && Config.crazyMode() && doubleEndTime < System.currentTimeMillis() && !selfId.equals(userId)) {
+                        useDoubleCard();
                     }
                     s = AntForestRpcCall.collectEnergy(null, userId, bubbleId);
                     lastCollectTime = System.currentTimeMillis();
@@ -1131,6 +1161,9 @@ public class AntForest {
         laterTime = -1;
     }
 
+    /**
+     * 使用双击卡
+     */
     private static void useDoubleCard() {
         try {
             JSONObject jo = new JSONObject(AntForestRpcCall.queryPropList(false));
@@ -1174,7 +1207,9 @@ public class AntForest {
         }
     }
 
-    /* 赠送道具 */
+    /**
+     * 赠送道具
+     */
     private static void giveProp(String targetUserId) {
         try {
             JSONObject jo = new JSONObject(AntForestRpcCall.queryPropList(true));
@@ -1206,8 +1241,9 @@ public class AntForest {
         }
     }
 
-    /* 绿色行动打卡 */
-
+    /**
+     * 绿色行动打卡
+     */
     private static void ecoLifeTick() {
         try {
             JSONObject jo = new JSONObject(EcoLifeRpcCall.queryHomePage());
@@ -1249,8 +1285,9 @@ public class AntForest {
         }
     }
 
-    /* 神奇物种 */
-
+    /**
+     * 神奇物种
+     */
     private static void antdodoCollect() {
         try {
             String s = AntForestRpcCall.queryAnimalStatus();
@@ -1271,6 +1308,9 @@ public class AntForest {
         }
     }
 
+    /**
+     * 收集物种卡
+     */
     private static void collectAnimalCard() {
         try {
             JSONObject jo = new JSONObject(AntForestRpcCall.antdodoHomePage());
@@ -1671,7 +1711,7 @@ public class AntForest {
      * @param produceTime the produce time
      */
     private static void execute(String userId, String bizNo, long bubbleId,
-            long produceTime) {
+                                long produceTime) {
         if (waitCollectBubbleIds.contains(bubbleId)) {
             return;
         }
@@ -1731,11 +1771,7 @@ public class AntForest {
         public void run() {
             int step = Config.tmpStepCount();
             try {
-                boolean booleanValue = (Boolean) XposedHelpers.callMethod(
-                        XposedHelpers.callStaticMethod(
-                                loader.loadClass("com.alibaba.health.pedometer.intergation.rpc.RpcManager"),
-                                "a"),
-                        "a", new Object[] { step, Boolean.FALSE, "system" });
+                boolean booleanValue = (Boolean) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(loader.loadClass("com.alibaba.health.pedometer.intergation.rpc.RpcManager"), "a"),"a", new Object[]{step, Boolean.FALSE, "system"});
                 if (booleanValue) {
                     Log.other("同步步数🏃🏻‍♂️[" + step + "步]");
                 } else {

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TabHost;
 import android.widget.Toast;
+
 import pansong291.xposed.quickenergy.R;
 import pansong291.xposed.quickenergy.entity.*;
 import pansong291.xposed.quickenergy.util.*;
@@ -98,7 +99,7 @@ public class SettingsActivity extends Activity {
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-                    float velocityY) {
+                                   float velocityY) {
                 if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
                     return false;
                 int lastView = tabHost.getCurrentTab();
@@ -159,7 +160,6 @@ public class SettingsActivity extends Activity {
         sw_startAt7 = findViewById(R.id.sw_startAt7);
         sw_enableOnGoing = findViewById(R.id.sw_enableOnGoing);
         sw_backupRuntime = findViewById(R.id.sw_backupRuntime);
-
         sw_collectEnergy = findViewById(R.id.sw_collectEnergy);
         sw_collectWateringBubble = findViewById(R.id.sw_collectWateringBubble);
         sw_collectProp = findViewById(R.id.sw_collectProp);
@@ -209,7 +209,6 @@ public class SettingsActivity extends Activity {
         sw_animalConsumeProp = findViewById(R.id.sw_animalConsumeProp);
         sw_collectGiftBox = findViewById(R.id.sw_collectGiftBox);
         sw_totalCertCount = findViewById(R.id.sw_totalCertCount);
-
         sw_enableStall = findViewById(R.id.sw_enableStall);
         sw_stallAutoClose = findViewById(R.id.sw_stallAutoClose);
         sw_stallAutoOpen = findViewById(R.id.sw_stallAutoOpen);
@@ -233,7 +232,6 @@ public class SettingsActivity extends Activity {
         sw_startAt7.setChecked(Config.startAt7());
         sw_enableOnGoing.setChecked(Config.enableOnGoing());
         sw_backupRuntime.setChecked(Config.backupRuntime());
-
         sw_collectEnergy.setChecked(Config.collectEnergy());
         sw_collectWateringBubble.setChecked(Config.collectWateringBubble());
         sw_collectProp.setChecked(Config.collectProp());
@@ -283,7 +281,6 @@ public class SettingsActivity extends Activity {
         sw_animalConsumeProp.setChecked(Config.animalConsumeProp());
         sw_collectGiftBox.setChecked(Config.collectGiftBox());
         sw_totalCertCount.setChecked(Config.totalCertCount());
-
         sw_enableStall.setChecked(Config.enableStall());
         sw_stallAutoClose.setChecked(Config.stallAutoClose());
         sw_stallAutoOpen.setChecked(Config.stallAutoOpen());
@@ -349,8 +346,12 @@ public class SettingsActivity extends Activity {
                     Config.setLimitCollect(sw.isChecked());
                     break;
 
-                case R.id.sw_doubleCard:
+                case R.id.sw_doubleCard://开关双击卡设置
                     Config.setDoubleCard(sw.isChecked());
+                    break;
+
+                case R.id.sw_crazyMode://开启疯狂消耗双击卡模式
+                    Config.setCrazyMode(sw.isChecked());
                     break;
 
                 case R.id.sw_helpFriendCollect:
@@ -770,7 +771,7 @@ public class SettingsActivity extends Activity {
         super.onPause();
         if (Config.hasChanged) {
             Config.hasChanged = !Config.saveConfigFile();
-            Toast.makeText(this, "保存成功！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "设置应用成功！", Toast.LENGTH_SHORT).show();
         }
         FriendIdMap.saveIdMap();
         CooperationIdMap.saveIdMap();

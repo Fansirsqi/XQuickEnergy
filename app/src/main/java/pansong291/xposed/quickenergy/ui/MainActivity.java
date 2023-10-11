@@ -32,6 +32,11 @@ public class MainActivity extends Activity {
 
     public static String version = "";
 
+    /**
+     * 检查模块是否激活
+     * @param context ?
+     * @return ?
+     */
     private static boolean isExpModuleActive(Context context) {
         boolean isExp = false;
         if (context == null)
@@ -63,6 +68,7 @@ public class MainActivity extends Activity {
         }
         return isExp;
     }
+
     /**
      * 判断当前应用是否是debug状态
      */
@@ -75,6 +81,9 @@ public class MainActivity extends Activity {
         }
     }
 
+
+    private static boolean hasShowAlert = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,9 +91,6 @@ public class MainActivity extends Activity {
         RuntimeInfo.process = "app";
 
         tvStatistics = findViewById(R.id.tv_statistics);
-//        Button btnGithub = findViewById(R.id.btn_github);
-//        DisplayMetrics metrics = this.getResources().getDisplayMetrics();
-//        int height = metrics.heightPixels;
 
         try {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -92,14 +98,16 @@ public class MainActivity extends Activity {
         } catch (PackageManager.NameNotFoundException ignored) {
         }
         this.setTitle(this.getTitle() + version);
-
-        setModuleActive(isExpModuleActive(this));
-        PermissionUtil.requestPermissions(this);
-        new AlertDialog.Builder(this)
-                .setTitle("提示")
-                .setMessage("本APP是为了学习研究开发，免费提供，不得进行任何形式的转发、发布、传播。请于24小时内卸载本APP。如果您是购买的可能已经被骗，请联系卖家退款。")
-                .setNegativeButton("我知道了", null)
-                .create().show();
+        if (!hasShowAlert) {
+            setModuleActive(isExpModuleActive(this));
+            PermissionUtil.requestPermissions(this);
+            new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage("本APP是为了学习研究开发，免费提供，不得进行任何形式的转发、发布、传播。请于24小时内卸载本APP。如果您是购买的可能已经被骗，请联系卖家退款。")
+                    .setNegativeButton("我知道了", null)
+                    .create().show();
+            hasShowAlert = true;
+        }
     }
 
     @Override
