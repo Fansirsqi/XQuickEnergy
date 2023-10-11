@@ -7,15 +7,21 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+
 import pansong291.xposed.quickenergy.data.RuntimeInfo;
 import pansong291.xposed.quickenergy.util.Config;
+import pansong291.xposed.quickenergy.util.Log;
 import pansong291.xposed.quickenergy.util.TimeUtil;
 
 import java.text.DateFormat;
 
 public class AntForestNotification {
+    private static final String TAG = AntForestNotification.class.getCanonicalName();
+    public static String version = "";
+    public static String TARGET_APP_PACKAGE_NAME = "pansong291.xposed.quickenergy.repair";
     public static final int NOTIFICATION_ID = 99;
     public static final String CHANNEL_ID = "pansong291.xposed.quickenergy.repair.ANTFOREST_NOTIFY_CHANNEL";
     private static NotificationManager mNotifyManager;
@@ -59,6 +65,12 @@ public class AntForestNotification {
     }
 
     private static void initNotification(Context context) {
+        try {
+            //+获取目标应用版本信息
+            version = context.getPackageManager().getPackageInfo(TARGET_APP_PACKAGE_NAME, 0).versionName;
+        } catch (PackageManager.NameNotFoundException ignored) {
+            Log.i(TAG, "状态栏获取版本信息失败");
+        }
         if (mNotification == null) {
             Intent it = new Intent(Intent.ACTION_VIEW);
             it.setData(Uri.parse("alipays://platformapi/startapp?appId="));
@@ -80,7 +92,7 @@ public class AntForestNotification {
             }
             builder
                     .setSmallIcon(android.R.drawable.sym_def_app_icon)
-                    .setContentTitle("芝麻粒")
+                    .setContentTitle("芝麻粒" + version)
                     .setAutoCancel(false)
                     .setContentIntent(pi);
             if (Config.enableOnGoing()) {
