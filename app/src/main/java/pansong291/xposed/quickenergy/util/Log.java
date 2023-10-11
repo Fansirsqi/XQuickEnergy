@@ -9,7 +9,7 @@ public class Log {
     private static SimpleDateFormat sdf;
 
     public static void i(String tag, String s) {
-        FileUtils.append2RuntimeLogFile(tag + ", " + s);
+        FileUtils.append2RuntimeLogFile("[" + tag + "]: " + s);
     }
 
     public static void infoChanged(String tag, String s) {
