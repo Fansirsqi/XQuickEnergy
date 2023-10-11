@@ -686,7 +686,7 @@ public class AntFarm {
                     StringBuilder award = new StringBuilder();
                     for (int i = 0; i < awardInfos.length(); i++) {
                         jo = awardInfos.getJSONObject(i);
-                        award.append(jo.getString("awardName")).append("*").append(jo.getInt("awardCount"));
+                        award.append(jo.getString("awardName")).append("+").append(jo.getInt("awardCount"));
                     }
                     Log.farm("庄园游戏🎮[" + gameType.gameName() + "]#" + award);
                 } else {
@@ -1289,7 +1289,7 @@ public class AntFarm {
                         }
                         jo = new JSONObject(AntFarmRpcCall.drawLotteryPlus());
                         if ("SUCCESS".equals(jo.getString("memo"))) {
-                            Log.farm("惊喜礼包🎁[" + singleDesc + "*" + awardCount + "]");
+                            Log.farm("惊喜礼包🎁[" + singleDesc + "+" + awardCount + "]");
                         } else {
                             Log.i(TAG, jo.getString("memo"));
                         }
@@ -1403,7 +1403,7 @@ public class AntFarm {
                         if ("SUCCESS".equals(jo.getString("memo"))) {
                             String prizeType = jo.getString("prizeType");
                             int prizeNum = jo.optInt("prizeNum", 0);
-                            Log.farm("贴贴小鸡💞[" + prizeType + "*" + prizeNum + "]");
+                            Log.farm("贴贴小鸡💞[" + prizeType + "+" + prizeNum + "]");
                         } else {
                             Log.i(jo.getString("memo"), jo.toString());
                         }
