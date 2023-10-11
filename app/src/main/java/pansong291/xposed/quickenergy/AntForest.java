@@ -730,7 +730,7 @@ public class AntForest {
                             useDoubleCard();
                         }
                     }
-                    if (Config.doubleCard() && Config.crazyMode() && doubleEndTime < System.currentTimeMillis() && !selfId.equals(userId)) {
+                    if (Config.crazyMode() && doubleEndTime < System.currentTimeMillis() && !selfId.equals(userId)) {
                         useDoubleCard();
                     }
                     s = AntForestRpcCall.collectEnergy(null, userId, bubbleId);
@@ -1771,7 +1771,7 @@ public class AntForest {
         public void run() {
             int step = Config.tmpStepCount();
             try {
-                boolean booleanValue = (Boolean) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(loader.loadClass("com.alibaba.health.pedometer.intergation.rpc.RpcManager"), "a"),"a", new Object[]{step, Boolean.FALSE, "system"});
+                boolean booleanValue = (Boolean) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(loader.loadClass("com.alibaba.health.pedometer.intergation.rpc.RpcManager"), "a"), "a", new Object[]{step, Boolean.FALSE, "system"});
                 if (booleanValue) {
                     Log.other("同步步数🏃🏻‍♂️[" + step + "步]");
                 } else {
