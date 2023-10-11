@@ -35,16 +35,26 @@ public class RuntimeInfo {
         }
         return instance;
     }
+
     private RuntimeInfo() {
         userId = FriendIdMap.currentUid;
         String content = FileUtils.readFromFile(FileUtils.runtimeInfoFile());
         try {
             joAll = new JSONObject(content);
+        } catch (Exception ignored) {
+            joAll = new JSONObject();
+        }
+        try {
             if (!joAll.has(userId)) {
                 joAll.put(userId, new JSONObject());
             }
+        } catch (Exception ignored) {
+        }
+        try {
             joCurrent = joAll.getJSONObject(userId);
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {
+            joCurrent = new JSONObject();
+        }
     }
 
     public void save() {
@@ -59,13 +69,20 @@ public class RuntimeInfo {
         return joCurrent.optString(key.name());
     }
 
+    /**
+     * 用于从JSONObject对象中获取指定键的long值
+     *
+     * @param key 表示要获取的键，它是一个枚举类型，表示JSONObject中的键
+     * @return long
+     */
     public Long getLong(RuntimeInfoKey key) {
-        return joCurrent.optLong(key.name(), 0L);
+        return joCurrent.optLong(key.name(), 0L);//这是从JSONObject对象中获取指定键的值的代码,0L表示当键不存在时，返回的默认值。
     }
 
     public void put(RuntimeInfoKey key, Object value) {
         try {
             joCurrent.put(key.name(), value);
+            joAll.put(userId, joCurrent);
         } catch (JSONException e) {
             Log.i(TAG, "put err:");
             Log.printStackTrace(TAG, e);
