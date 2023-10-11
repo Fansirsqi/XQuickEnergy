@@ -628,7 +628,7 @@ public class AntStall {
                     s = AntStallRpcCall.collectManure();
                     jo = new JSONObject(s);
                     if ("SUCCESS".equals(jo.getString("resultCode"))) {
-                        Log.farm("蚂蚁新村⛪获得肥料" + manure + "g");
+                        Log.farm("蚂蚁新村⛪获得肥料" + manure + "克");
                     }
                 }
             } else {

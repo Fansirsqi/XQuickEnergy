@@ -674,7 +674,7 @@ public class AntForest {
                         jo = new JSONObject(AntForestRpcCall.collectFriendGiftBox(giftBoxId, userId));
                         if ("SUCCESS".equals(jo.getString("resultCode"))) {
                             int energy = jo.optInt("energy", 0);
-                            Log.forest("收取礼盒🎁[" + FriendIdMap.getNameById(userId) + "-" + title + "]#" + energy + "g");
+                            Log.forest("收取礼盒🎁[" + FriendIdMap.getNameById(userId) + "-" + title + "]#" + energy + "克");
                             collectedEnergy += energy;
                             Statistics.addData(Statistics.DataType.COLLECTED, energy);
                         } else {
@@ -792,7 +792,7 @@ public class AntForest {
                     helped += jo.getInt("collectedEnergy");
                 }
                 if (helped > 0) {
-                    Log.forest("帮收能量🧺[" + FriendIdMap.getNameById(targetUserId) + "]#" + helped + "g");
+                    Log.forest("帮收能量🧺[" + FriendIdMap.getNameById(targetUserId) + "]#" + helped + "克");
                     helpCollectedEnergy += helped;
                     totalHelpCollected += helped;
                     Statistics.addData(Statistics.DataType.HELPED, helped);

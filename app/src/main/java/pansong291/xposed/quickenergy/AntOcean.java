@@ -106,7 +106,7 @@ public class AntOcean {
                                 if (retBubble != null) {
                                     int collectedEnergy = retBubble.getInt("collectedEnergy");
                                     Log.forest("神奇海洋🐳收取[" + FriendIdMap.getNameById(userId) + "]的海洋能量#"
-                                            + collectedEnergy + "g");
+                                            + collectedEnergy + "克");
                                 }
                             }
                         }
