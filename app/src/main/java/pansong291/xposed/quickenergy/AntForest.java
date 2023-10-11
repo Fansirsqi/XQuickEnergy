@@ -718,7 +718,7 @@ public class AntForest {
                 if (collected > 0) {
                     totalCollected += collected;
                     Statistics.addData(Statistics.DataType.COLLECTED, collected);
-                    String str = "收取能量🪂[" + FriendIdMap.getNameById(userId) + "]#" + collected + "g"
+                    String str = "收取能量\uD83C\uDF88[" + FriendIdMap.getNameById(userId) + "]#" + collected + "克"
                             + (StringUtil.isEmpty(extra) ? "" : "[" + extra + "]");
                     Log.forest(str);
                     AntForestToast.show(str);
