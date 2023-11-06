@@ -366,6 +366,9 @@ public class AntForest {
         }
     }
 
+    /**
+     * 检查可以收取自己的能量？
+     */
     private static void canCollectSelfEnergy() {
         try {
             boolean hasMore = false;
@@ -543,6 +546,10 @@ public class AntForest {
         return 39;
     }
 
+    /**
+     * 检查可以收取 userId 的能量
+     * @param userId xar
+     */
     private static void canCollectEnergy(String userId) {
         if (RuntimeInfo.getInstance().getLong(RuntimeInfo.RuntimeInfoKey.ForestPauseTime) > System
                 .currentTimeMillis()) {
@@ -730,6 +737,7 @@ public class AntForest {
                             useDoubleCard();
                         }
                     }
+                    //疯狂模式监测
                     if (Config.crazyMode() && doubleEndTime < System.currentTimeMillis() && !selfId.equals(userId)) {
                         useDoubleCard();
                     }
