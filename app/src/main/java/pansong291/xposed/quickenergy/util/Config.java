@@ -466,9 +466,7 @@ public class Config {
         return getConfig().doubleCard;
     }
 
-    public static boolean crazyMode() {
-        return getConfig().crazyMode;
-    }
+    public static boolean crazyMode() {return getConfig().crazyMode; }
 
     /**
      * 设置开启双击卡使用

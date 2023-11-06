@@ -1,5 +1,5 @@
 package pansong291.xposed.quickenergy.ui;
-
+//每个 控件在次需要被使用5次
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
@@ -36,7 +36,7 @@ public class SettingsActivity extends Activity {
             sw_cooperateWater, sw_energyRain, sw_enableFarm, sw_rewardFriend, sw_sendBackAnimal,
             sw_receiveFarmToolReward, sw_useNewEggTool, sw_harvestProduce, sw_donation, sw_answerQuestion,
             sw_receiveFarmTaskAward, sw_feedAnimal, sw_useAccelerateTool, sw_notifyFriend, sw_receivePoint,
-            sw_openTreasureBox, sw_donateCharityCoin, sw_kbSignIn, sw_limitCollect, sw_doubleCard,
+            sw_openTreasureBox, sw_donateCharityCoin, sw_kbSignIn, sw_limitCollect, sw_doubleCard,sw_crazyMode,
             sw_ExchangeEnergyDoubleClick, sw_reserve, sw_ecoLifeTick, sw_tiyubiz, sw_insBlueBeanExchange,
             sw_ancientTree, sw_ancientTreeOnlyWeek, sw_receiveCoinAsset, sw_antdodoCollect, sw_recordFarmGame, sw_beach,
             sw_kitchen, sw_antOcean, sw_userPatrol, sw_animalConsumeProp, sw_antOrchard, sw_receiveOrchardTaskAward,
@@ -201,6 +201,7 @@ public class SettingsActivity extends Activity {
         sw_kbSignIn = findViewById(R.id.sw_kbSignIn);
         sw_limitCollect = findViewById(R.id.sw_limitCollect);
         sw_doubleCard = findViewById(R.id.sw_doubleCard);
+        sw_crazyMode = findViewById(R.id.sw_crazyMode);
         sw_ExchangeEnergyDoubleClick = findViewById(R.id.sw_ExchangeEnergyDoubleClick);
         sw_ecoLifeTick = findViewById(R.id.sw_ecoLifeTick);
         sw_tiyubiz = findViewById(R.id.sw_tiyubiz);
@@ -272,6 +273,7 @@ public class SettingsActivity extends Activity {
         sw_donateCharityCoin.setChecked(Config.donateCharityCoin());
         sw_kbSignIn.setChecked(Config.kbSginIn());
         sw_limitCollect.setChecked(Config.isLimitCollect());
+        sw_crazyMode.setChecked(Config.crazyMode());
         sw_doubleCard.setChecked(Config.doubleCard());
         sw_ExchangeEnergyDoubleClick.setChecked(Config.ExchangeEnergyDoubleClick());
         sw_ecoLifeTick.setChecked(Config.ecoLifeTick());
