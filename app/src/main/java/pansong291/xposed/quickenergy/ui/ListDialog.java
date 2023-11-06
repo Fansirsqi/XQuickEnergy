@@ -14,7 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import java.util.List;
+
 import pansong291.xposed.quickenergy.R;
 import pansong291.xposed.quickenergy.entity.AlipayUser;
 import pansong291.xposed.quickenergy.entity.AreaCode;
@@ -42,17 +44,13 @@ public class ListDialog {
     static AlertDialog optionsDialog;
     static AlertDialog deleteDialog;
 
-    public enum ListType {
-        RADIO, CHECK, SHOW
-    }
-
     public static void show(Context c, CharSequence title, List<? extends IdAndName> bl, List<String> sl,
-            List<Integer> cl) {
+                            List<Integer> cl) {
         show(c, title, bl, sl, cl, ListType.CHECK);
     }
 
     public static void show(Context c, CharSequence title, List<? extends IdAndName> bl, List<String> sl,
-            List<Integer> cl, ListType listType) {
+                            List<Integer> cl, ListType listType) {
         selectedList = sl;
         countList = cl;
         ListAdapter la = ListAdapter.get(c, listType);
@@ -157,7 +155,7 @@ public class ListDialog {
     /**
      * Show the EDT dialog and set the title, hint, and text based on the current context.
      *
-     * @param  c  the context in which the dialog is shown
+     * @param c the context in which the dialog is shown
      */
     private static void showEdtDialog(Context c) {
         try {
@@ -322,6 +320,10 @@ public class ListDialog {
                     .create();
         }
         return deleteDialog;
+    }
+
+    public enum ListType {
+        RADIO, CHECK, SHOW
     }
 
     static class OnBtnClickListener implements View.OnClickListener {

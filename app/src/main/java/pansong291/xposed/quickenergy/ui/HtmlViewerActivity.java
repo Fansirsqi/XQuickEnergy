@@ -13,6 +13,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import pansong291.xposed.quickenergy.R;
 
 public class HtmlViewerActivity extends Activity {
@@ -32,7 +33,7 @@ public class HtmlViewerActivity extends Activity {
                     @Override
                     public void onProgressChanged(WebView view, int progress) {
                         pgb.setProgress(progress);
-                        if(progress < 100) {
+                        if (progress < 100) {
                             setTitle("Loading...");
                             pgb.setVisibility(View.VISIBLE);
                         } else {
@@ -55,7 +56,7 @@ public class HtmlViewerActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case 1:
                 Uri uri = Uri.parse(mWebView.getUrl());
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);

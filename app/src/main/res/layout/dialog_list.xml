@@ -1,53 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-	<ListView
-		android:layout_width="match_parent"
-		android:layout_height="0dp"
-		android:fastScrollEnabled="true"
-		android:id="@+id/lv_list"
-		android:layout_weight="1"/>
+    <ListView
+        android:id="@+id/lv_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fastScrollEnabled="true" />
 
-	<LinearLayout
-		android:orientation="horizontal"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:gravity="center">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-		<EditText
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:id="@+id/edt_find"
-			android:hint="@string/search"/>
+        <EditText
+            android:id="@+id/edt_find"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/search" />
 
-		<Button
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			style="?android:attr/buttonBarButtonStyle"
-			android:text="@string/last"
-            android:textAllCaps="false"
-			android:minHeight="50dp"
-			android:background="@drawable/button"
-			android:id="@+id/btn_find_last"
-			android:padding="12dp"/>
+        <Button
+            android:id="@+id/btn_find_last"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:minHeight="50dp"
+            android:padding="12dp"
+            android:text="@string/last"
+            android:textAllCaps="false" />
 
-		<Button
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			style="?android:attr/buttonBarButtonStyle"
-			android:text="@string/next"
-            android:textAllCaps="false"
-			android:minHeight="50dp"
-			android:background="@drawable/button"
-			android:id="@+id/btn_find_next"
-			android:padding="12dp"/>
+        <Button
+            android:id="@+id/btn_find_next"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:minHeight="50dp"
+            android:padding="12dp"
+            android:text="@string/next"
+            android:textAllCaps="false" />
 
-	</LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
 

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="AppTheme" parent="@android:style/Theme.Material.Light">
         <!--Appbar背景色-->
         <item name="android:colorPrimary">@color/colorPrimary</item>
         <!--ToolBar上的Title颜色-->
-        <item name="android:titleTextColor">@color/textColorPrimary</item>
+        <item name="android:titleTextColor" tools:targetApi="m">@color/textColorPrimary</item>
         <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
-	</style>
+    </style>
 </resources>

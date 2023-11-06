@@ -17,6 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+
 import pansong291.xposed.quickenergy.R;
 import pansong291.xposed.quickenergy.data.RuntimeInfo;
 import pansong291.xposed.quickenergy.entity.FriendWatch;
@@ -25,15 +28,14 @@ import pansong291.xposed.quickenergy.util.FileUtils;
 import pansong291.xposed.quickenergy.util.PermissionUtil;
 import pansong291.xposed.quickenergy.util.Statistics;
 
-import java.util.ArrayList;
-
 public class MainActivity extends Activity {
-    TextView tvStatistics;
-
     public static String version = "";
+    private static boolean hasShowAlert = false;
+    TextView tvStatistics;
 
     /**
      * 检查模块是否激活
+     *
      * @param context ?
      * @return ?
      */
@@ -80,9 +82,6 @@ public class MainActivity extends Activity {
             return false;
         }
     }
-
-
-    private static boolean hasShowAlert = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

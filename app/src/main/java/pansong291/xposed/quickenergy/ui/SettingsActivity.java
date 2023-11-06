@@ -14,8 +14,16 @@ import android.widget.TabHost;
 import android.widget.Toast;
 
 import pansong291.xposed.quickenergy.R;
-import pansong291.xposed.quickenergy.entity.*;
-import pansong291.xposed.quickenergy.util.*;
+import pansong291.xposed.quickenergy.entity.AlipayBeach;
+import pansong291.xposed.quickenergy.entity.AlipayReserve;
+import pansong291.xposed.quickenergy.entity.AlipayUser;
+import pansong291.xposed.quickenergy.entity.AreaCode;
+import pansong291.xposed.quickenergy.entity.CooperateUser;
+import pansong291.xposed.quickenergy.util.BeachIdMap;
+import pansong291.xposed.quickenergy.util.Config;
+import pansong291.xposed.quickenergy.util.CooperationIdMap;
+import pansong291.xposed.quickenergy.util.FriendIdMap;
+import pansong291.xposed.quickenergy.util.ReserveIdMap;
 
 public class SettingsActivity extends Activity {
 
@@ -23,14 +31,6 @@ public class SettingsActivity extends Activity {
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
     private static final int MAX_TAB_INDEX = 3;
-
-    private TabHost tabHost;
-    private GestureDetector gestureDetector;
-    private Animation slideLeftIn;
-    private Animation slideLeftOut;
-    private Animation slideRightIn;
-    private Animation slideRightOut;
-
     Switch sw_immediateEffect, sw_recordLog, sw_showToast, sw_stayAwake, sw_timeoutRestart, sw_startAt7,
             sw_collectWateringBubble, sw_collectProp, sw_collectEnergy, sw_helpFriendCollect, sw_receiveForestTaskAward,
             sw_cooperateWater, sw_energyRain, sw_enableFarm, sw_rewardFriend, sw_sendBackAnimal,
@@ -44,6 +44,12 @@ public class SettingsActivity extends Activity {
             sw_enableStall, sw_stallAutoClose, sw_stallAutoOpen, sw_stallAutoTask, sw_stallReceiveAward,
             sw_stallOpenType, sw_stallDonate, sw_chickenDiary, sw_collectGiftBox, sw_stallInviteRegister,
             sw_stallThrowManure, sw_greenFinance, sw_totalCertCount;
+    private TabHost tabHost;
+    private GestureDetector gestureDetector;
+    private Animation slideLeftIn;
+    private Animation slideLeftOut;
+    private Animation slideRightIn;
+    private Animation slideRightOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -7,18 +7,27 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import pansong291.xposed.quickenergy.R;
-import pansong291.xposed.quickenergy.entity.IdAndName;
-import pansong291.xposed.quickenergy.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ListAdapter extends BaseAdapter {
-    private static ListAdapter adapter;
+import pansong291.xposed.quickenergy.R;
+import pansong291.xposed.quickenergy.entity.IdAndName;
+import pansong291.xposed.quickenergy.util.Log;
 
+public class ListAdapter extends BaseAdapter {
+    public static List<ViewHolder> viewHolderList;
+    private static ListAdapter adapter;
     private static ListDialog.ListType listType;
+    Context context;
+    List<? extends IdAndName> list;
+    List<String> selects;
+    int findIndex = -1;
+    CharSequence findWord = null;
+    private ListAdapter(Context c) {
+        context = c;
+    }
 
     public static ListAdapter get(Context c) {
         if (adapter == null)
@@ -33,16 +42,6 @@ public class ListAdapter extends BaseAdapter {
         }
         ListAdapter.listType = listType;
         return adapter;
-    }
-
-    Context context;
-    List<? extends IdAndName> list;
-    List<String> selects;
-    int findIndex = -1;
-    CharSequence findWord = null;
-
-    private ListAdapter(Context c) {
-        context = c;
     }
 
     public void setBaseList(List<? extends IdAndName> l) {
@@ -77,7 +76,7 @@ public class ListAdapter extends BaseAdapter {
         int i = findIndex;
         if (i < 0)
             i = list.size();
-        for (;;) {
+        for (; ; ) {
             i = (i + list.size() - 1) % list.size();
             IdAndName ai = list.get(i);
             if (ai.name.contains(cs)) {
@@ -98,7 +97,7 @@ public class ListAdapter extends BaseAdapter {
             findIndex = -1;
             findWord = cs;
         }
-        for (int i = findIndex;;) {
+        for (int i = findIndex; ; ) {
             i = (i + 1) % list.size();
             IdAndName ai = list.get(i);
             if (ai.name.contains(cs)) {
@@ -154,8 +153,6 @@ public class ListAdapter extends BaseAdapter {
         vh.cb.setChecked(selects != null && selects.contains(ai.id));
         return p2;
     }
-
-    public static List<ViewHolder> viewHolderList;
 
     public static class ViewHolder {
         TextView tv;

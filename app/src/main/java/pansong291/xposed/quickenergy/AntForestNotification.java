@@ -11,19 +11,19 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 
+import java.text.DateFormat;
+
 import pansong291.xposed.quickenergy.data.RuntimeInfo;
 import pansong291.xposed.quickenergy.util.Config;
 import pansong291.xposed.quickenergy.util.Log;
 import pansong291.xposed.quickenergy.util.TimeUtil;
 
-import java.text.DateFormat;
-
 public class AntForestNotification {
+    public static final int NOTIFICATION_ID = 99;
+    public static final String CHANNEL_ID = "pansong291.xposed.quickenergy.repair.ANTFOREST_NOTIFY_CHANNEL";
     private static final String TAG = AntForestNotification.class.getCanonicalName();
     public static String version = "";
     public static String TARGET_APP_PACKAGE_NAME = "pansong291.xposed.quickenergy.repair";
-    public static final int NOTIFICATION_ID = 99;
-    public static final String CHANNEL_ID = "pansong291.xposed.quickenergy.repair.ANTFOREST_NOTIFY_CHANNEL";
     private static NotificationManager mNotifyManager;
     private static Notification mNotification;
     private static Notification.Builder builder;

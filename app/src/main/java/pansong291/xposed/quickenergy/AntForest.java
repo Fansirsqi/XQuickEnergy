@@ -36,6 +36,14 @@ import pansong291.xposed.quickenergy.util.TimeUtil;
  */
 public class AntForest {
     private static final String TAG = AntForest.class.getCanonicalName();
+    /**
+     * 记录收集能量时间戳的队列
+     */
+    private static final Queue<Long> collectedQueue = new ArrayDeque<>();
+    private static final Lock limitLock = new ReentrantLock();
+    private static final Lock collectLock = new ReentrantLock();
+    private static final HashSet<Long> waitCollectBubbleIds = new HashSet<>();
+    private static final List<Thread> taskThreads = new ArrayList<>();
     private static String selfId;
     private static int collectedEnergy = 0;
     private static int helpCollectedEnergy = 0;
@@ -45,26 +53,13 @@ public class AntForest {
     private static long serverTime = -1;
     private static long offsetTime = -1;
     private static long laterTime = -1;
-
     private static boolean isScanning = false;
-
-    /**
-     * 记录收集能量时间戳的队列
-     */
-    private static final Queue<Long> collectedQueue = new ArrayDeque<>();
-
-    private static final Lock limitLock = new ReentrantLock();
-
-    private static final Lock collectLock = new ReentrantLock();
-
     private static volatile long lastCollectTime = 0;
-
     /**
      * 双击卡剩余时间
      */
     private static volatile long doubleEndTime = 0;
-
-    private static final HashSet<Long> waitCollectBubbleIds = new HashSet<>();
+    private static Thread mainThread;
 
     /**
      * 检查是否到达一分钟内收取限制
@@ -103,10 +98,6 @@ public class AntForest {
             limitLock.unlock();
         }
     }
-
-    private static Thread mainThread;
-
-    private static final List<Thread> taskThreads = new ArrayList<>();
 
     public static void stop() {
         if (mainThread != null) {
@@ -548,6 +539,7 @@ public class AntForest {
 
     /**
      * 检查可以收取 userId 的能量
+     *
      * @param userId xar
      */
     private static void canCollectEnergy(String userId) {

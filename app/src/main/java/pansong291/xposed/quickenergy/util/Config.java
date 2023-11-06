@@ -9,29 +9,20 @@ import android.os.Build;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 import pansong291.xposed.quickenergy.AntFarm.SendType;
 import pansong291.xposed.quickenergy.data.RuntimeInfo;
 import pansong291.xposed.quickenergy.hook.ClassMember;
 import pansong291.xposed.quickenergy.hook.XposedHook;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 public class Config {
-    public enum RecallAnimalType {
-        ALWAYS, WHEN_THIEF, WHEN_HUNGRY, NEVER;
-
-        public static final CharSequence[] nickNames = {"始终召回", "偷吃时召回", "饥饿时召回", "不召回"};
-        public static final CharSequence[] names = {ALWAYS.nickName(), WHEN_THIEF.nickName(), WHEN_HUNGRY.nickName(),
-                NEVER.nickName()};
-
-        public CharSequence nickName() {
-            return nickNames[ordinal()];
-        }
-    }
-
-    private static final String TAG = Config.class.getCanonicalName();
-
     /* application */
     public static final String jn_immediateEffect = "immediateEffect";
     public static final String jn_recordLog = "recordLog";
@@ -47,7 +38,6 @@ public class Config {
     public static final String jn_backupRuntime = "backupRuntime";
     /* forest */
     public static final String jn_collectEnergy = "collectEnergy";
-
     public static final String jn_ancientTreeCityCodeList = "ancientTreeCityCodeList";
     public static final String jn_collectWateringBubble = "collectWateringBubble";
     public static final String jn_collectProp = "collectProp";
@@ -114,7 +104,6 @@ public class Config {
     public static final String jn_animalConsumeProp = "animalConsumeProp";
     public static final String jn_collectGiftBox = "collectGiftBox";
     public static final String jn_totalCertCount = "totalCertCount";
-
     public static final String jn_enableStall = "enableStall";
     public static final String jn_stallAutoOpen = "stallAutoOpen";
     public static final String jn_stallAutoClose = "stallAutoClose";
@@ -130,7 +119,6 @@ public class Config {
     public static final String jn_stallInviteRegister = "stallInviteRegister";
     public static final String jn_stallThrowManure = "stallThrowManure";
     public static final String jn_stallInviteShopList = "stallInviteShopList";
-
     /* other */
     public static final String jn_receivePoint = "receivePoint";
     public static final String jn_openTreasureBox = "openTreasureBox";
@@ -147,11 +135,14 @@ public class Config {
     public static final String jn_zcjSignIn = "zcjSignIn";
     public static final String jn_merchantKmdk = "merchantKmdk";
     public static final String jn_greenFinance = "greenFinance";
-
     public static final String jn_crazyMode = "crazyMode";
-
+    private static final String TAG = Config.class.getCanonicalName();
     public static volatile boolean shouldReload;
     public static volatile boolean hasChanged;
+    /* base */
+    private static volatile Config config;
+    private static int tmpStepCount = -1;
+    private static PendingIntent alarm7Pi;
     /* application */
     private boolean immediateEffect;
     private boolean recordLog;
@@ -168,7 +159,6 @@ public class Config {
     /* forest */
     private boolean collectEnergy;
     private int checkInterval;
-
     private boolean collectWateringBubble;
     private boolean collectProp;
     private boolean limitCollect;
@@ -215,11 +205,8 @@ public class Config {
     private List<String> beachList;
     private List<Integer> beachCountList;
     private boolean ancientTreeOnlyWeek;
-
     private List<String> giveEnergyRainList;
-
     private int waitWhenException;
-
     private boolean exchangeEnergyDoubleClick;
     private int exchangeEnergyDoubleClickCount;
     private boolean antdodoCollect;
@@ -228,7 +215,6 @@ public class Config {
     private boolean animalConsumeProp;
     private boolean collectGiftBox;
     private boolean totalCertCount;
-
     /* farm */
     private boolean enableFarm;
     private boolean rewardFriend;
@@ -248,7 +234,6 @@ public class Config {
     private boolean useAccelerateTool;
     private List<String> feedFriendAnimalList;
     private List<Integer> feedFriendCountList;
-
     private List<String> farmGameTime;
     private List<String> animalSleepTime;
     private boolean notifyFriend;
@@ -262,7 +247,6 @@ public class Config {
     private boolean antOrchard;
     private boolean receiveOrchardTaskAward;
     private int orchardSpreadManureCount;
-
     private boolean enableStall;
     private boolean stallAutoClose;
     private boolean stallAutoOpen;
@@ -278,7 +262,6 @@ public class Config {
     private boolean stallInviteRegister;
     private boolean stallThrowManure;
     private List<String> stallInviteShopList;
-
     /* other */
     private boolean receivePoint;
     private boolean openTreasureBox;
@@ -295,9 +278,6 @@ public class Config {
     private boolean zcjSignIn;
     private boolean merchantKmdk;
     private boolean greenFinance;
-
-    /* base */
-    private static volatile Config config;
 
     /* application */
     public static void setImmediateEffect(boolean b) {
@@ -505,11 +485,6 @@ public class Config {
         hasChanged = true;
     }
 
-    public static void setDoubleCardTime(String i) {
-        getConfig().doubleCardTime = Arrays.asList(i.split(","));
-        hasChanged = true;
-    }
-
     public static String doubleCardTime() {
         return String.join(",", getConfig().doubleCardTime);
     }
@@ -525,6 +500,11 @@ public class Config {
                 return true;
         }
         return false;
+    }
+
+    public static void setDoubleCardTime(String i) {
+        getConfig().doubleCardTime = Arrays.asList(i.split(","));
+        hasChanged = true;
     }
 
     /**
@@ -953,11 +933,6 @@ public class Config {
         return getConfig().feedFriendCountList;
     }
 
-    public static void setFarmGameTime(String i) {
-        getConfig().farmGameTime = Arrays.asList(i.split(","));
-        hasChanged = true;
-    }
-
     public static String farmGameTime() {
         return String.join(",", getConfig().farmGameTime);
     }
@@ -975,8 +950,8 @@ public class Config {
         return false;
     }
 
-    public static void setAnimalSleepTime(String i) {
-        getConfig().animalSleepTime = Arrays.asList(i.split(","));
+    public static void setFarmGameTime(String i) {
+        getConfig().farmGameTime = Arrays.asList(i.split(","));
         hasChanged = true;
     }
 
@@ -995,6 +970,11 @@ public class Config {
                 return true;
         }
         return false;
+    }
+
+    public static void setAnimalSleepTime(String i) {
+        getConfig().animalSleepTime = Arrays.asList(i.split(","));
+        hasChanged = true;
     }
 
     /**
@@ -1267,8 +1247,6 @@ public class Config {
     public static int syncStepCount() {
         return getConfig().syncStepCount;
     }
-
-    private static int tmpStepCount = -1;
 
     public static int tmpStepCount() {
         if (tmpStepCount >= 0) {
@@ -2392,8 +2370,6 @@ public class Config {
         return formated;
     }
 
-    private static PendingIntent alarm7Pi;
-
     private static PendingIntent getAlarm7Pi(Context context) {
         if (alarm7Pi == null) {
             Intent it = new Intent();
@@ -2445,6 +2421,18 @@ public class Config {
             }
         } catch (Throwable th) {
             Log.printStackTrace("alarm7", th);
+        }
+    }
+
+    public enum RecallAnimalType {
+        ALWAYS, WHEN_THIEF, WHEN_HUNGRY, NEVER;
+
+        public static final CharSequence[] nickNames = {"始终召回", "偷吃时召回", "饥饿时召回", "不召回"};
+        public static final CharSequence[] names = {ALWAYS.nickName(), WHEN_THIEF.nickName(), WHEN_HUNGRY.nickName(),
+                NEVER.nickName()};
+
+        public CharSequence nickName() {
+            return nickNames[ordinal()];
         }
     }
 
