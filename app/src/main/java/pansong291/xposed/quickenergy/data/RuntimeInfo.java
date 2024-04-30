@@ -9,14 +9,18 @@ import pansong291.xposed.quickenergy.util.FileUtils;
 import pansong291.xposed.quickenergy.util.FriendIdMap;
 import pansong291.xposed.quickenergy.util.Log;
 
+
 /**
  * @author Constanline
  * @since 2023/08/18
  */
 public class RuntimeInfo {
     private static final String TAG = RuntimeInfo.class.getCanonicalName();
-    public static String process;
+
     private static RuntimeInfo instance;
+
+    public static String process;
+
     private final String userId;
 
     private JSONObject joAll;
@@ -54,13 +58,6 @@ public class RuntimeInfo {
         }
     }
 
-    public static RuntimeInfo getInstance() {
-        if (instance == null || !Objects.equals(instance.userId, FriendIdMap.currentUid)) {
-            instance = new RuntimeInfo();
-        }
-        return instance;
-    }
-
     public void save() {
         FileUtils.write2File(joAll.toString(), FileUtils.runtimeInfoFile());
     }
@@ -88,7 +85,7 @@ public class RuntimeInfo {
      * @return long
      */
     public Long getLong(RuntimeInfoKey key) {
-        return joCurrent.optLong(key.name(), 0L);//这是从JSONObject对象中获取指定键的值的代码,0L表示当键不存在时，返回的默认值。
+        return joCurrent.optLong(key.name(), 0L); //这是从JSONObject对象中获取指定键的值的代码,0L表示当键不存在时，返回的默认值。
     }
 
     public void put(RuntimeInfoKey key, Object value) {
@@ -103,9 +100,5 @@ public class RuntimeInfo {
             Log.printStackTrace(TAG, e);
         }
         save();
-    }
-
-    public enum RuntimeInfoKey {
-        ForestPauseTime
     }
 }
