@@ -32,6 +32,8 @@ public class ListAdapter extends BaseAdapter {
     public static ListAdapter get(Context c) {
         if (adapter == null)
             adapter = new ListAdapter(c);
+        adapter.findIndex = -1;
+        adapter.findWord = null;
         return adapter;
     }
 
@@ -41,6 +43,8 @@ public class ListAdapter extends BaseAdapter {
             viewHolderList = new ArrayList<>();
         }
         ListAdapter.listType = listType;
+        adapter.findIndex = -1;
+        adapter.findWord = null;
         return adapter;
     }
 
@@ -65,8 +69,7 @@ public class ListAdapter extends BaseAdapter {
         }
     }
 
-    public int
-    findLast(CharSequence cs) {
+    public int findLast(CharSequence cs) {
         if (list == null || list.isEmpty())
             return -1;
         if (!cs.equals(findWord)) {
@@ -113,6 +116,26 @@ public class ListAdapter extends BaseAdapter {
 
     public void exitFind() {
         findIndex = -1;
+    }
+
+    public void selectAll(){
+        selects.clear();
+        for(IdAndName ai:list){
+            selects.add(ai.id);
+        }
+        notifyDataSetChanged();
+    }
+
+    public void SelectInvert(){
+        List<String> newSelects = new ArrayList<>();
+        for(IdAndName ai:list){
+            if(!selects.contains(ai.id)){
+                newSelects.add(ai.id);
+            }
+        }
+        selects.clear();
+        selects.addAll(newSelects);
+        notifyDataSetChanged();
     }
 
     @Override

@@ -3,11 +3,13 @@ package pansong291.xposed.quickenergy.hook;
 import java.util.UUID;
 
 import pansong291.xposed.quickenergy.util.RandomUtils;
+import java.util.Collections;
+import java.util.List;
 import pansong291.xposed.quickenergy.util.StringUtil;
 
 public class AntForestRpcCall {
 
-    private static final String VERSION = "20230925";
+    private static final String VERSION = "20231208";
 
     private static String getUniqueId() {
         return String.valueOf(System.currentTimeMillis()) + RandomUtils.nextLong();
@@ -26,7 +28,7 @@ public class AntForestRpcCall {
 
     public static String queryHomePage() {
         return RpcUtil.request("alipay.antforest.forest.h5.queryHomePage",
-                "[{\"configVersionMap\":{\"wateringBubbleConfig\":\"0\"},\"skipWhackMole\":false,\"source\":\"chInfo_ch_appcenter__chsub_9patch\",\"version\":\""
+                "[{\"configVersionMap\":{\"wateringBubbleConfig\":\"10\"},\"skipWhackMole\":false,\"source\":\"chInfo_ch_appcenter__chsub_9patch\",\"version\":\""
                         + VERSION + "\"}]");
     }
 
@@ -46,6 +48,14 @@ public class AntForestRpcCall {
             args1 = "[{\"bizType\":\"" + bizType + "\",\"bubbleIds\":[" + bubbleId
                     + "],\"source\":\"chInfo_ch_appcenter__chsub_9patch\",\"userId\":\"" + userId + "\"}]";
         }
+        return RpcUtil.request("alipay.antmember.forest.h5.collectEnergy", args1);
+    }
+
+    public static String batchRobEnergy(String userId, List<String> bubbleId) {
+        String args1;
+            args1 = "[{\"bizType\":\"\",\"bubbleIds\":[" + String.join(",", bubbleId)
+                    + "],\"fromAct\":\"BATCH_ROB_ENERGY\",\"source\":\"chInfo_ch_appcenter__chsub_9patch\",\"userId\":\"" + userId + "\",\"version\":\""
+                    + VERSION + "\"}]";
         return RpcUtil.request("alipay.antmember.forest.h5.collectEnergy", args1);
     }
 

@@ -12,7 +12,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="730dp"
+            android:layout_height="match_parent" 
             tools:ignore="TextSizeCheck">
 
             <FrameLayout
@@ -20,6 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="12dp">
+
                 <!--基础设置-->
                 <LinearLayout
                     android:id="@+id/tab_base"
@@ -32,6 +33,7 @@
                         android:id="@+id/sw_immediateEffect"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+						android:checked="true"
                         android:minHeight="50dp"
                         android:onClick="onClick"
                         android:paddingStart="@dimen/setting_item_padding"
@@ -182,6 +184,16 @@
                         android:paddingStart="@dimen/setting_item_padding"
                         android:paddingEnd="@dimen/setting_item_padding"
                         android:text="@string/backup_runtime_log" />
+
+					<Switch
+						android:paddingStart="@dimen/setting_item_padding"
+						android:paddingEnd="@dimen/setting_item_padding"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/language_simplified_chinese"
+						android:onClick="onClick"
+						android:minHeight="50dp"
+						android:id="@+id/sw_languageSimplifiedChinese" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -215,25 +227,35 @@
                         android:text="@string/check_interval_minutes"
                         android:textAllCaps="false" />
 
-                    <Switch
-                        android:id="@+id/sw_collectWateringBubble"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="50dp"
-                        android:onClick="onClick"
-                        android:paddingStart="@dimen/setting_item_padding"
-                        android:paddingEnd="@dimen/setting_item_padding"
-                        android:text="@string/collect_watering_bubble" />
+					<Switch
+						android:paddingStart="@dimen/setting_item_padding"
+						android:paddingEnd="@dimen/setting_item_padding"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/collect_watering_bubble"
+						android:onClick="onClick"
+						android:minHeight="50dp"
+						android:id="@+id/sw_collectWateringBubble" />
 
-                    <Switch
-                        android:id="@+id/sw_collectProp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="50dp"
-                        android:onClick="onClick"
-                        android:paddingStart="@dimen/setting_item_padding"
-                        android:paddingEnd="@dimen/setting_item_padding"
-                        android:text="@string/collect_prop" />
+					<Switch
+						android:paddingStart="@dimen/setting_item_padding"
+						android:paddingEnd="@dimen/setting_item_padding"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/batch_rob_energy"
+						android:onClick="onClick"
+						android:minHeight="50dp"
+						android:id="@+id/sw_batchRobEnergy" />
+
+					<Switch
+						android:paddingStart="@dimen/setting_item_padding"
+						android:paddingEnd="@dimen/setting_item_padding"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/collect_prop"
+						android:onClick="onClick"
+						android:minHeight="50dp"
+						android:id="@+id/sw_collectProp" />
 
                     <Button
                         android:id="@+id/btn_advanceTime"
@@ -826,86 +848,95 @@
                         android:text="@string/animal_game_time"
                         android:textAllCaps="false" />
 
-                    <Switch
-                        android:id="@+id/sw_kitchen"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="50dp"
-                        android:onClick="onClick"
-                        android:paddingStart="@dimen/setting_item_padding"
-                        android:paddingEnd="@dimen/setting_item_padding"
-                        android:text="@string/kitchen" />
+					<Switch
+						android:paddingStart="@dimen/setting_item_padding"
+						android:paddingEnd="@dimen/setting_item_padding"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/kitchen"
+						android:onClick="onClick"
+						android:minHeight="50dp"
+						android:id="@+id/sw_kitchen" />
 
-                    <Switch
-                        android:id="@+id/sw_useNewEggTool"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="50dp"
-                        android:onClick="onClick"
-                        android:paddingStart="@dimen/setting_item_padding"
-                        android:paddingEnd="@dimen/setting_item_padding"
-                        android:text="@string/use_new_egg_tool" />
+					<Switch
+						android:paddingStart="@dimen/setting_item_padding"
+						android:paddingEnd="@dimen/setting_item_padding"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/use_special_food"
+						android:onClick="onClick"
+						android:minHeight="50dp"
+						android:id="@+id/sw_special_food" />
 
-                    <Switch
-                        android:id="@+id/sw_harvestProduce"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="50dp"
-                        android:onClick="onClick"
-                        android:paddingStart="@dimen/setting_item_padding"
-                        android:paddingEnd="@dimen/setting_item_padding"
-                        android:text="@string/harvest_produce" />
+					<Switch
+						android:paddingStart="@dimen/setting_item_padding"
+						android:paddingEnd="@dimen/setting_item_padding"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/use_new_egg_tool"
+						android:onClick="onClick"
+						android:minHeight="50dp"
+						android:id="@+id/sw_useNewEggTool" />
 
-                    <Switch
-                        android:id="@+id/sw_donation"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="50dp"
-                        android:onClick="onClick"
-                        android:paddingStart="@dimen/setting_item_padding"
-                        android:paddingEnd="@dimen/setting_item_padding"
-                        android:text="@string/donation" />
+					<Switch
+						android:paddingStart="@dimen/setting_item_padding"
+						android:paddingEnd="@dimen/setting_item_padding"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/harvest_produce"
+						android:onClick="onClick"
+						android:minHeight="50dp"
+						android:id="@+id/sw_harvestProduce" />
 
-                    <Switch
-                        android:id="@+id/sw_answerQuestion"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="50dp"
-                        android:onClick="onClick"
-                        android:paddingStart="@dimen/setting_item_padding"
-                        android:paddingEnd="@dimen/setting_item_padding"
-                        android:text="@string/answer_question" />
+					<Switch
+						android:paddingStart="@dimen/setting_item_padding"
+						android:paddingEnd="@dimen/setting_item_padding"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/donation"
+						android:onClick="onClick"
+						android:minHeight="50dp"
+						android:id="@+id/sw_donation" />
 
-                    <Switch
-                        android:id="@+id/sw_receiveFarmTaskAward"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="50dp"
-                        android:onClick="onClick"
-                        android:paddingStart="@dimen/setting_item_padding"
-                        android:paddingEnd="@dimen/setting_item_padding"
-                        android:text="@string/receive_farm_task_award" />
+					<Switch
+						android:paddingStart="@dimen/setting_item_padding"
+						android:paddingEnd="@dimen/setting_item_padding"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/answer_question"
+						android:onClick="onClick"
+						android:minHeight="50dp"
+						android:id="@+id/sw_answerQuestion" />
 
-                    <Switch
-                        android:id="@+id/sw_feedAnimal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="50dp"
-                        android:onClick="onClick"
-                        android:paddingStart="@dimen/setting_item_padding"
-                        android:paddingEnd="@dimen/setting_item_padding"
-                        android:text="@string/feed_animal" />
+					<Switch
+						android:paddingStart="@dimen/setting_item_padding"
+						android:paddingEnd="@dimen/setting_item_padding"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/receive_farm_task_award"
+						android:onClick="onClick"
+						android:minHeight="50dp"
+						android:id="@+id/sw_receiveFarmTaskAward" />
 
-                    <Switch
-                        android:id="@+id/sw_useAccelerateTool"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="50dp"
-                        android:onClick="onClick"
-                        android:paddingStart="@dimen/setting_item_padding"
-                        android:paddingEnd="@dimen/setting_item_padding"
-                        android:text="@string/use_accelerate_tool"
-                        tools:ignore="TooManyViews" />
+					<Switch
+						android:paddingStart="@dimen/setting_item_padding"
+						android:paddingEnd="@dimen/setting_item_padding"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/feed_animal"
+						android:onClick="onClick"
+						android:minHeight="50dp"
+						android:id="@+id/sw_feedAnimal" />
+
+					<Switch
+						android:paddingStart="@dimen/setting_item_padding"
+						android:paddingEnd="@dimen/setting_item_padding"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/use_accelerate_tool"
+						android:onClick="onClick"
+						android:minHeight="50dp"
+						android:id="@+id/sw_useAccelerateTool" />
 
                     <Button
                         android:id="@+id/btn_feedFriendAnimalList"
@@ -1374,7 +1405,37 @@
                         android:paddingEnd="@dimen/setting_item_padding"
                         android:text="@string/green_finance" />
 
-                </LinearLayout>
+					<Switch
+						android:paddingStart="@dimen/setting_item_padding"
+						android:paddingEnd="@dimen/setting_item_padding"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/ant_book_read"
+						android:onClick="onClick"
+						android:minHeight="50dp"
+						android:id="@+id/sw_antBookRead" />
+
+					<Switch
+						android:paddingStart="@dimen/setting_item_padding"
+						android:paddingEnd="@dimen/setting_item_padding"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/consume_gold"
+						android:onClick="onClick"
+						android:minHeight="50dp"
+						android:id="@+id/sw_consumeGold" />
+
+					<Switch
+						android:paddingStart="@dimen/setting_item_padding"
+						android:paddingEnd="@dimen/setting_item_padding"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/omegakoi_town"
+						android:onClick="onClick"
+						android:minHeight="50dp"
+						android:id="@+id/sw_omegakoiTown" />
+
+				</LinearLayout>
 
             </FrameLayout>
         </ScrollView>
