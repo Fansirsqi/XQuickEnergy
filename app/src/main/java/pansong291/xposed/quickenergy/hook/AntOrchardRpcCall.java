@@ -14,20 +14,20 @@ public class AntOrchardRpcCall {
     public static String mowGrassInfo() {
         return RpcUtil.request("com.alipay.antorchard.mowGrassInfo",
                 "[{\"requestType\":\"NORMAL\",\"sceneCode\":\"ORCHARD\",\"showRanking\":true,\"source\":\"ch_appcenter__chsub_9patch\",\"version\":\""
-                                                + VERSION + "\"}]");
-        }
+                        + VERSION + "\"}]");
+    }
 
-        public static String batchHireAnimalRecommend(String orchardUserId) {
-                return RpcUtil.request("com.alipay.antorchard.batchHireAnimalRecommend",
-                                "[{\"orchardUserId\":\"" + orchardUserId
-                                                + "\",\"requestType\":\"NORMAL\",\"sceneCode\":\"ORCHARD\",\"sceneType\":\"weed\",\"source\":\"ch_appcenter__chsub_9patch\",\"version\":\""
-                                                + VERSION + "\"}]");
-        }
+    public static String batchHireAnimalRecommend(String orchardUserId) {
+        return RpcUtil.request("com.alipay.antorchard.batchHireAnimalRecommend",
+                "[{\"orchardUserId\":\"" + orchardUserId
+                        + "\",\"requestType\":\"NORMAL\",\"sceneCode\":\"ORCHARD\",\"sceneType\":\"weed\",\"source\":\"ch_appcenter__chsub_9patch\",\"version\":\""
+                        + VERSION + "\"}]");
+    }
 
-        public static String batchHireAnimal(List<String>  recommendGroupList) {
-                return RpcUtil.request("com.alipay.antorchard.batchHireAnimal",
-                                "[{\"recommendGroupList\":[" + String.join(",", recommendGroupList)
-                                                + "],\"requestType\":\"NORMAL\",\"sceneCode\":\"ORCHARD\",\"sceneType\":\"weed\",\"source\":\"ch_appcenter__chsub_9patch\",\"version\":\""
+    public static String batchHireAnimal(List<String> recommendGroupList) {
+        return RpcUtil.request("com.alipay.antorchard.batchHireAnimal",
+                "[{\"recommendGroupList\":[" + String.join(",", recommendGroupList)
+                        + "],\"requestType\":\"NORMAL\",\"sceneCode\":\"ORCHARD\",\"sceneType\":\"weed\",\"source\":\"ch_appcenter__chsub_9patch\",\"version\":\""
                         + VERSION + "\"}]");
     }
 
@@ -118,71 +118,44 @@ public class AntOrchardRpcCall {
                         + "\",\"version\":\"" + VERSION + "\"}]");
     }
 
-public static String orchardSelectSeed() {
+    public static String orchardSelectSeed() {
         return RpcUtil.request("com.alipay.antfarm.orchardSelectSeed",
-                        "[{\"requestType\":\"NORMAL\",\"sceneCode\":\"ORCHARD\",\"seedCode\":\"rp\",\"source\":\"ch_appcenter__chsub_9patch\",\"version\":\""
-                                        + VERSION + "\"}]");
-}
-/* 砸金蛋 */
-public static String queryGameCenter() {
+                "[{\"requestType\":\"NORMAL\",\"sceneCode\":\"ORCHARD\",\"seedCode\":\"rp\",\"source\":\"ch_appcenter__chsub_9patch\",\"version\":\""
+                        + VERSION + "\"}]");
+    }
+
+    /* 砸金蛋 */
+    public static String queryGameCenter() {
         return RpcUtil.request("com.alipay.antorchard.queryGameCenter",
-                        "[{\"requestType\":\"NORMAL\",\"sceneCode\":\"ORCHARD\",\"source\":\"ch_appcenter__chsub_9patch\",\"version\":\""
-                                        + VERSION + "\"}]");
-}
-public static String noticeGame(String appId) {
+                "[{\"requestType\":\"NORMAL\",\"sceneCode\":\"ORCHARD\",\"source\":\"ch_appcenter__chsub_9patch\",\"version\":\""
+                        + VERSION + "\"}]");
+    }
+
+    public static String noticeGame(String appId) {
         return RpcUtil.request("com.alipay.antorchard.noticeGame",
-                        "[{\"appId\":\"" + appId
-                                        + "\",\"requestType\":\"NORMAL\",\"sceneCode\":\"ORCHARD\",\"source\":\"ch_appcenter__chsub_9patch\",\"version\":\""
-                                        + VERSION + "\"}]");
-}
-public static String submitUserAction(String gameId) {
+                "[{\"appId\":\"" + appId
+                        + "\",\"requestType\":\"NORMAL\",\"sceneCode\":\"ORCHARD\",\"source\":\"ch_appcenter__chsub_9patch\",\"version\":\""
+                        + VERSION + "\"}]");
+    }
+
+    public static String submitUserAction(String gameId) {
         return RpcUtil.request("com.alipay.gamecenteruprod.biz.rpc.v3.submitUserAction",
-                        "[{\"actionCode\":\"enterGame\",\"gameId\":\"" + gameId
-                                        + "\",\"paladinxVersion\":\"2.0.13\",\"source\":\"gameFramework\"}]");
-}
-public static String submitUserPlayDurationAction(String gameAppId, String source) {
+                "[{\"actionCode\":\"enterGame\",\"gameId\":\"" + gameId
+                        + "\",\"paladinxVersion\":\"2.0.13\",\"source\":\"gameFramework\"}]");
+    }
+
+    public static String submitUserPlayDurationAction(String gameAppId, String source) {
         return RpcUtil.request("com.alipay.gamecenteruprod.biz.rpc.v3.submitUserPlayDurationAction",
-                        "[{\"gameAppId\":\"" + gameAppId + "\",\"playTime\":32,\"source\":\"" + source
-                                        + "\",\"statisticTag\":\"\"}]");
-}
-public static String smashedGoldenEgg() {
+                "[{\"gameAppId\":\"" + gameAppId + "\",\"playTime\":32,\"source\":\"" + source
+                        + "\",\"statisticTag\":\"\"}]");
+    }
+
+
+    public static String smashedGoldenEgg() {
         return RpcUtil.request("com.alipay.antorchard.smashedGoldenEgg",
-                        "[{\"requestType\":\"NORMAL\",\"seneCode\":\"ORCHARD\",\"source\":\"ch_appcenter__chsub_9patch\",\"version\":\""
-                                        + VERSION
-                                        + "\"}]");
-}
-public static String orchardSelectSeed() {
-        return RpcUtil.request("com.alipay.antfarm.orchardSelectSeed",
-                        "[{\"requestType\":\"NORMAL\",\"sceneCode\":\"ORCHARD\",\"seedCode\":\"rp\",\"source\":\"ch_appcenter__chsub_9patch\",\"version\":\""
-                                        + VERSION + "\"}]");
-}
-/* 砸金蛋 */
-public static String queryGameCenter() {
-        return RpcUtil.request("com.alipay.antorchard.queryGameCenter",
-                        "[{\"requestType\":\"NORMAL\",\"sceneCode\":\"ORCHARD\",\"source\":\"ch_appcenter__chsub_9patch\",\"version\":\""
-                                        + VERSION + "\"}]");
-}
-public static String noticeGame(String appId) {
-        return RpcUtil.request("com.alipay.antorchard.noticeGame",
-                        "[{\"appId\":\"" + appId
-                                        + "\",\"requestType\":\"NORMAL\",\"sceneCode\":\"ORCHARD\",\"source\":\"ch_appcenter__chsub_9patch\",\"version\":\""
-                                        + VERSION + "\"}]");
-}
-public static String submitUserAction(String gameId) {
-        return RpcUtil.request("com.alipay.gamecenteruprod.biz.rpc.v3.submitUserAction",
-                        "[{\"actionCode\":\"enterGame\",\"gameId\":\"" + gameId
-                                        + "\",\"paladinxVersion\":\"2.0.13\",\"source\":\"gameFramework\"}]");
-}
-public static String submitUserPlayDurationAction(String gameAppId, String source) {
-        return RpcUtil.request("com.alipay.gamecenteruprod.biz.rpc.v3.submitUserPlayDurationAction",
-                        "[{\"gameAppId\":\"" + gameAppId + "\",\"playTime\":32,\"source\":\"" + source
-                                        + "\",\"statisticTag\":\"\"}]");
-}
-public static String smashedGoldenEgg() {
-        return RpcUtil.request("com.alipay.antorchard.smashedGoldenEgg",
-                        "[{\"requestType\":\"NORMAL\",\"seneCode\":\"ORCHARD\",\"source\":\"ch_appcenter__chsub_9patch\",\"version\":\""
-                                        + VERSION
-                                        + "\"}]");
-}
+                "[{\"requestType\":\"NORMAL\",\"seneCode\":\"ORCHARD\",\"source\":\"ch_appcenter__chsub_9patch\",\"version\":\""
+                        + VERSION
+                        + "\"}]");
+    }
 
 }

@@ -68,7 +68,7 @@ public class AntForest {
      * 则清理 {@link #collectedQueue} 中超过1分钟的项,之后检查剩余条目是否多余一分钟收取限制数量
      * {@link Config#getLimitCount}.
      *
-     * @return 如果到达上限,则返回True,否则返回False
+     * @return 如果到达上限, 则返回True, 否则返回False
      */
     private static boolean checkCollectLimited() {
         if (Config.isLimitCollect()) {
@@ -132,8 +132,6 @@ public class AntForest {
         isScanning = false;
     }
 
-
-    
 
     public static void start() {
         PluginUtils.invoke(AntForest.class, PluginUtils.PluginAction.START);
@@ -235,25 +233,25 @@ public class AntForest {
     }
 
     /**
-    * 处理双击卡的使用逻辑。
-    * 这个方法会检查是否满足使用双击卡的条件，并在满足条件时调用使用双击卡的方法。
-    *
-    * @param selfId 当前用户的ID
-    * @param userId 目标用户的ID
-    * @param doubleEndTime 双击卡结束时间的时间戳
-    */
-    rivate void handleDoubleCardLogic(String selfId, String userId, long doubleEndTime) {
-       // 检查双击卡功能是否开启，且双击卡结束时间已过
-       if (Config.doubleCard() && doubleEndTime < System.currentTimeMillis()) {
-           // 检查是否在双击卡使用时间范围内，并且今天可以使用双击卡，且目标用户不是自己
-           if (Config.isDoubleCardTime() && !selfId.equals(userId) && Statistics.canDoubleToday()) {
-               useDoubleCard();
-           }
-           // 检查疯狂模式是否开启，且目标用户不是自己
-           if (Config.crazyMode() && !selfId.equals(userId)) {
-               useDoubleCard();
-           }
-       }
+     * 处理双击卡的使用逻辑。
+     * 这个方法会检查是否满足使用双击卡的条件，并在满足条件时调用使用双击卡的方法。
+     *
+     * @param selfId        当前用户的ID
+     * @param userId        目标用户的ID
+     * @param doubleEndTime 双击卡结束时间的时间戳
+     */
+    private static void handleDoubleCardLogic(String selfId, String userId, long doubleEndTime) {
+        // 检查双击卡功能是否开启，且双击卡结束时间已过
+        if (Config.doubleCard() && doubleEndTime < System.currentTimeMillis()) {
+            // 检查是否在双击卡使用时间范围内，并且今天可以使用双击卡，且目标用户不是自己
+            if (Config.isDoubleCardTime() && !selfId.equals(userId) && Statistics.canDoubleToday()) {
+                useDoubleCard();
+            }
+            // 检查疯狂模式是否开启，且目标用户不是自己
+            if (Config.crazyMode() && !selfId.equals(userId)) {
+                useDoubleCard();
+            }
+        }
     }
     // 在需要使用双击卡的地方调用这个方法
     //handleDoubleCardLogic(selfId, userId, doubleEndTime);
@@ -793,7 +791,7 @@ public class AntForest {
                     while (System.currentTimeMillis() - lastCollectTime < Config.collectInterval()) {
                         Thread.sleep(System.currentTimeMillis() - lastCollectTime);
                     }
-                    handleDoubleCardLogic(selfId,userId,doubleEndTime)//是否在双击卡使用时段，或者是否开启疯狂模式
+                    handleDoubleCardLogic(selfId, userId, doubleEndTime);//是否在双击卡使用时段，或者是否开启疯狂模式
                     s = AntForestRpcCall.batchRobEnergy(userId, bubbleId);
                     lastCollectTime = System.currentTimeMillis();
                 }
@@ -821,72 +819,6 @@ public class AntForest {
                 } else {
                     Log.recordLog("一键收取[" + FriendIdMap.getNameById(userId) + "]的能量失败",
                             ",UserID:" + userId + ",BubbleId:" + bubbleId);
-                }
-                if (!bubbleId.isEmpty()) {
-                    collected += batchRobEnergy(userId, bubbleId, "双击卡");
-                }
-            } else {
-                Log.recordLog("[" + FriendIdMap.getNameById(userId) + "]" + jo.getString("resultDesc"), s);
-            }
-        } catch (Throwable t) {
-            Log.i(TAG, "collectEnergy err:");
-            Log.printStackTrace(TAG, t);
-        }
-        return collected;
-    }
-
-    private static int batchRobEnergy(String userId, List<String> bubbleId, String extra) {
-        if (RuntimeInfo.getInstance().getLong(RuntimeInfo.RuntimeInfoKey.ForestPauseTime) > System
-            .currentTimeMillis()) {
-            Log.recordLog("异常等待中,暂不收取能量!", "");
-            return 0;
-        }
-        int collected = 0;
-        try {
-            while (checkCollectLimited()) {
-                Thread.sleep(1000);
-            }
-        } catch (Throwable th) {
-            Log.printStackTrace("到达分钟限制,等待失败!", th);
-            return 0;
-        }
-        try {
-            String s = "{\"resultCode\": \"FAILED\"}";
-            if (Config.collectInterval() > 0) {
-                synchronized (collectLock) {
-                    while (System.currentTimeMillis() - lastCollectTime < Config.collectInterval()) {
-                        Thread.sleep(System.currentTimeMillis() - lastCollectTime);
-                    }
-                    if (Config.doubleCard() && doubleEndTime < System.currentTimeMillis()) {
-                        if (Config.isDoubleCardTime() && !selfId.equals(userId) && Statistics.canDoubleToday()) {
-                            useDoubleCard();
-                        }
-                    }
-                    s = AntForestRpcCall.batchRobEnergy(userId, bubbleId);
-                    lastCollectTime = System.currentTimeMillis();
-                }
-            }
-            JSONObject jo = new JSONObject(s);
-            if ("SUCCESS".equals(jo.getString("resultCode"))) {
-                offerCollectQueue();
-                JSONArray jaBubbles = jo.getJSONArray("bubbles");
-                bubbleId = new ArrayList<>();
-                for (int i = 0; i < jaBubbles.length(); i++) {
-                    JSONObject bubble = jaBubbles.getJSONObject(i);
-                    if (bubble.getBoolean("canBeRobbedAgain")) {
-                        bubbleId.add(String.valueOf(bubble.getLong("id")));
-                    }
-                    collected += bubble.getInt("collectedEnergy");
-                }
-                if (collected > 0) {
-                    FriendManager.friendWatch(userId, collected);
-                    totalCollected += collected;
-                    Statistics.addData(Statistics.DataType.COLLECTED, collected);
-                    String str = "一键收取🪂[" + FriendIdMap.getNameById(userId) + "]#" + collected + "g" + (StringUtil.isEmpty(extra) ? "" : "[" + extra + "]");
-                    Log.forest(str);
-                    AntForestToast.show(str);
-                } else {
-                    Log.recordLog("一键收取[" + FriendIdMap.getNameById(userId) + "]的能量失败", ",UserID:" + userId + ",BubbleId:" + bubbleId);
                 }
                 if (!bubbleId.isEmpty()) {
                     collected += batchRobEnergy(userId, bubbleId, "双击卡");
@@ -930,7 +862,7 @@ public class AntForest {
                         Log.recordLog("异常等待中,暂不收取能量!", "");
                         return 0;
                     }
-                    handleDoubleCardLogic(selfId,userId,doubleEndTime)//是否在双击卡使用时段，或者是否开启疯狂模式
+                    handleDoubleCardLogic(selfId, userId, doubleEndTime);//是否在双击卡使用时段，或者是否开启疯狂模式
                     s = AntForestRpcCall.collectEnergy(null, userId, bubbleId);
                     lastCollectTime = System.currentTimeMillis();
                 }
@@ -1502,6 +1434,7 @@ public class AntForest {
         long endTimeStemp = Log.timeToStamp(endDate);
         return timeStemp < endTimeStemp && (endTimeStemp - timeStemp) < 691200000L;
     }
+
     private static void antdodoCollect() {
         try {
             String s = AntForestRpcCall.queryAnimalStatus();

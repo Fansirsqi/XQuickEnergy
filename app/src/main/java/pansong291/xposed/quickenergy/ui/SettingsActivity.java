@@ -27,6 +27,7 @@ import pansong291.xposed.quickenergy.util.BeachIdMap;
 import pansong291.xposed.quickenergy.util.Config;
 import pansong291.xposed.quickenergy.util.CooperationIdMap;
 import pansong291.xposed.quickenergy.util.FriendIdMap;
+import pansong291.xposed.quickenergy.util.LanguageUtil;
 import pansong291.xposed.quickenergy.util.ReserveIdMap;
 
 public class SettingsActivity extends Activity {
